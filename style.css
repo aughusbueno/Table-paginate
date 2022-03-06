@@ -1,0 +1,11 @@
+.table>:not(:first-child){
+    border-top:unset !important
+}
+
+td{
+    font-size: .88em !important;
+}
+
+th{
+    font-size: .9.5em !important;
+}
