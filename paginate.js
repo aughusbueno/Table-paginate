@@ -145,19 +145,11 @@ class Paginate {
     }
     GenerateThead()
     {
-        let temp = ''
         let content = ''
         
         this.thead.map(e => content += `<th class="text-primary">${e}</th>`)
 
-        temp += `
-        <thead>
-            <tr>
-                ${content}
-            </tr>
-        </thead>
-        `
-        document.querySelector('.Table-contents-container').innerHTML = temp
+        document.querySelector('.Table-contents-container thead').innerHTML = `<tr>${content}</tr>`
     }
     GenerateButtons()
     {
@@ -188,8 +180,20 @@ class Paginate {
             each.addEventListener('click', evt => method(each.dataset.pageNumber))
         })
     }
-    Load()
+    Load(settings)
     {
+        if(settings){
+            this.API = settings.API
+            this.thead = settings.thead
+            this.format = settings.format || null
+            this.total = settings.total
+        }
+
+        if(!this.API) return console.error("Please set an API")
+        if(!this.thead) return console.error("Please set a table header")
+
+        if(typeof this.thead != 'object') console.error("Table header should be type of array")
+        
         const table = document.querySelector('#table')
 
         table.innerHTML = `
@@ -197,6 +201,10 @@ class Paginate {
         </div>
         <div class="w-100 overflow-auto p-3 shadow-sm rounded bg-light">
             <table class="table w-100 table-bordered m-0 Table-contents-container">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
             </table>
         </div>
         <div class="d-flex justify-content-end align-items-center mt-3 Table-navigation-container">
