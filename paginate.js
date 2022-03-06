@@ -14,9 +14,9 @@ class Paginate {
 
         // TABLE CONTENTS SETTINGS
         this.thead = []
-        this.tbody = {}
+        this.format = null
     }
-    page(_page = 1)
+    async page(_page = 1)
     {
         if(!this.total) return console.error("please set total items.")
         if((this.visibleButtons % 2) != 1) return console.error("visibleButtons : Only odd numbers accepted.")
@@ -32,11 +32,33 @@ class Paginate {
 
         // POSSIBLE QUERY PARAMETERS :
         // https://url.com?start={pageStart}&end={pageEnd}&search={search} // Backend : Select... Limit 1,15
-        // https://url.com?page={page}&search={pageEnd} // Backend : accepts only page number and search
-        // https://url.com?skip={pageStart}&limit={items} // Backend : skips number of items and Limit items display
+        // https://url.com?page={page}&search={search} // Backend : accepts only page number and search
+        // https://url.com?skip={pageStart}&limit={items}&search={search} // Backend : skips number of items and Limit items display
 
-        console.log(`From item ${pageStart} to ${pageEnd}. ${ search && ('Search : '+search)}`)
-        this.GenerateButtons()
+        try{
+            let url = this.API.replaceAll('{pageStart}',pageStart)
+                            .replaceAll('{pageEnd}',pageEnd)
+                            .replaceAll('{search}',search)
+                            .replaceAll('{page}',page)
+                            .replaceAll('{items}',items)
+
+            // const data = await fetch(url, this.options)
+            // const json = await data.json()
+
+            // const d = await json
+
+            this.GenerateButtons()
+            console.log(url)
+            return console.log(`From item ${pageStart} to ${pageEnd}. ${ search && ('Search : '+search)}`)
+
+            if(typeof this.format == 'function'){
+                return this.format(d)
+            }
+
+        }
+        catch(error){
+            alert(error)
+        }
     }
     getTotalPage()
     {
