@@ -8,7 +8,7 @@ Table.Load({
         for(const i in data){
             temp += `DO SOMETHING HERE`
         }
-    
+
         document.querySelector('tbody').innerHTML = temp
     }
 })

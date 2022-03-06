@@ -48,8 +48,14 @@ class Paginate {
             // const d = await json
 
             this.GenerateButtons()
-            console.log(url)
-            return console.log(`From item ${pageStart} to ${pageEnd}. ${ search && ('Search : '+search)}`)
+            
+            return console.table({
+                page : page,
+                items : items,
+                start : pageStart,
+                end : pageEnd,
+                search : search
+            })
 
             if(typeof this.format == 'function'){
                 return this.format(d)
