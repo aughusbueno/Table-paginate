@@ -35,7 +35,7 @@ class Paginate {
         // https://url.com?page={page}&search={pageEnd} // Backend : accepts only page number and search
         // https://url.com?skip={pageStart}&limit={items} // Backend : skips number of items and Limit items display
 
-        console.log(`From item ${pageStart} to ${pageEnd}`)
+        console.log(`From item ${pageStart} to ${pageEnd}. ${ search && ('Search : '+search)}`)
         this.GenerateButtons()
     }
     getTotalPage()
@@ -86,17 +86,17 @@ class Paginate {
         <div class="bg-light p-3 shadow-sm rounded mb-3">
             <div class="d-flex justify-content-between align-items-center">
                 <span class="d-flex align-items-center">
-                    <select class="form-control form-control-sm d-inline">
+                    <select class="form-control form-control-sm d-inline Table-contents">
                         <option value="15" ${this.content == 15 && 'selected'}>15</option>
                         <option value="20" ${this.content == 20 && 'selected'}>20</option>
                         <option value="25" ${this.content == 25 && 'selected'}>25</option>
-                        <option value="30" ${this.content == 30 && 'selected'}>25</option>
+                        <option value="30" ${this.content == 30 && 'selected'}>30</option>
                     </select>
                 </span>
                 <span>
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" placeholder="Search">
-                        <button class="input-group-text btn btn-primary">
+                        <input type="text" class="form-control Table-search-input" placeholder="Search" value="${this.search || ''}">
+                        <button class="input-group-text btn btn-primary Table-search-btn">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
@@ -106,6 +106,20 @@ class Paginate {
         `
 
         document.querySelector('.Table-header-container').innerHTML = temp
+
+        let set = (num) =>  this.content = num
+        let search = (string) =>  this.search = string
+        const load = () =>  this.Reload()
+
+        document.querySelector('.Table-contents').addEventListener('change', (e) => {
+            set(parseInt(e.target.value))
+            load()
+        })
+        
+        document.querySelector('.Table-search-btn').addEventListener('click', (e) => {
+            search(document.querySelector('.Table-search-input').value)
+            load()
+        })
     }
     GenerateThead()
     {
@@ -121,7 +135,6 @@ class Paginate {
             </tr>
         </thead>
         `
-
         document.querySelector('.Table-contents-container').innerHTML = temp
     }
     GenerateButtons()
@@ -170,6 +183,11 @@ class Paginate {
         
         this.GenerateTop()
         this.GenerateThead()
+        this.GenerateButtons()
+        this.page()
+    }
+    Reload()
+    {
         this.GenerateButtons()
         this.page()
     }
