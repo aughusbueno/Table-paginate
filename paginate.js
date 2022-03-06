@@ -52,22 +52,26 @@ class Paginate {
     }
     pageNavigation()
     {
-        let navigation = []
+        let prev = this.pageNum != 1 ? 'Previous' : ''
+        let next = this.getTotalPage() > this.pageNum ? 'Next' : ''
 
-        const prev = 'Previous'
-        const next = 'Next'
-
+        const totalPage = parseInt(this.getTotalPage())
         const half = Math.floor(this.visibleButtons / 2)
-        const currentPage = this.pageNum
+        const currentPage = parseInt(this.pageNum)
 
-        const low = currentPage - half
-        const high = currentPage + half
+        let high = currentPage + half
+        let low = currentPage - half
+        
+        if(high >= totalPage) low = low - (high - totalPage)
+
+        if(low <= 1) low = 1
 
         const pagesToShow = Array.from({length: this.visibleButtons}, (v, i) => i + low)
+        .filter(i => i >= 1 && i <= totalPage)
 
-        navigation = [prev, ...pagesToShow, next]
+        let navigation = [prev, ...pagesToShow, next]
 
-        console.log(navigation)
+        // console.log(navigation)
         return navigation
     }
 
@@ -152,9 +156,8 @@ class Paginate {
     Load()
     {
         const table = document.querySelector('#table')
-        table.innerHTML = '' //remove soon
 
-        table.innerHTML += `
+        table.innerHTML = `
         <div class="Table-header-container">
         </div>
         <div class="w-100 overflow-auto p-3 shadow-sm rounded bg-light">
@@ -168,7 +171,7 @@ class Paginate {
         this.GenerateTop()
         this.GenerateThead()
         this.GenerateButtons()
-
+        this.page()
     }
 }
 

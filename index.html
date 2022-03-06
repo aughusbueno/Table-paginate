@@ -12,7 +12,64 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="table" class="p-3" style="max-width:600px"></div>
+    <div id="table" class="p-3" style="max-width: 600px;">
+        <div class="bg-light p-3 shadow-sm rounded mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="d-flex align-items-center">
+                    <select class="form-control form-control-sm d-inline">
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                    </select>
+                </span>
+                <span>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <button class="input-group-text btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </span>
+            </div>
+        </div>
+
+        <div class="w-100 overflow-auto p-3 shadow-sm rounded bg-light">
+            <table class="table w-100 table-bordered m-0">
+                <thead>
+                    <tr>
+                        <th class="text-primary">Id</th>
+                        <th class="text-primary">First name</th>
+                        <th class="text-primary">Middle name</th>
+                        <th class="text-primary">Last name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>sadsa</td>
+                        <td>sadsa</td>
+                        <td>sadsa</td>
+                        <td>sadsa</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center mt-3">
+            <button class="btn btn-sm btn-primary m-1 shadow-sm">
+                1
+            </button>
+            <button class="btn btn-sm btn-light m-1 shadow-sm">
+                2
+            </button>
+            <button class="btn btn-sm btn-light m-1 shadow-sm">
+                3
+            </button>
+            <button class="btn btn-sm btn-light m-1 shadow-sm">
+                Next
+            </button>
+        </div>
+    </div>
 
     <script src="paginate.js"></script>
     <script src="app.js"></script>
