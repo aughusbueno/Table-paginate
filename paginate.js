@@ -1,3 +1,84 @@
+// ================================
+// AUGHUS FRANK BUENO 2X21
+// ================================
+// 
+// POSSIBLE QUERY PARAMETERS :
+// https://sample.api&parameter.com?start={pageStart}&end={pageEnd}&search={search} // Backend : Select... Limit 1,15
+// https://sample.api&parameter.com?page={page}&search={search} // Backend : accepts only page number and search
+// https://sample.api&parameter.com?skip={pageStart}&limit={items}&search={search} // Backend : skips number of items and Limit items display
+// 
+// ================================
+//
+// IMPORTANT SETTINGS
+// 
+//  .thead - for table header
+//  .API - data source
+//  .total - to know how many to navigate
+//  .format - to display data (optional)
+//
+// ================================
+// 
+// METHODS
+// 
+// .format()
+//      ito ung pag didisplay ng data
+// 
+// .page(argument)
+//      - argument -> type : number, important : true
+//      ito ung pag navigate ng page sa table at pag display ng data
+// 
+// .getTotalPage()
+//      kinukuha ung total pages depends sa total number of data (.total)
+//      and total number of contents per page (.content)
+// 
+// .pageNavigation()
+//      binibigay nito ang array of buttons naka depende ung amount ng buttons (.visibleButtons)
+// 
+// ================================
+// 
+// GENERATE DOM
+// 
+// .GenerateTop()
+//      ang laman ng component na ito ay ung choices kung ilang contents per page
+//      at search bar
+// 
+// .GenerateThead()
+//      ito ung pag generate ng thead sa table.
+//      kung ano linagay sa .thead ayun ung lilitaw sa table
+// 
+// .GenerateButtons()
+//      ididisplay nito ung return value ng (.pageNavigation())
+//
+// .Load()
+//      render :
+//          .GenerateTop()
+//          .GenerateThead()
+//          .GenerateButtons()
+// 
+// .Reload()
+//      re-render : 
+//          .page(arguments)
+// 
+// ================================
+// 
+// 
+// const API = 'sample.api.parameter.com/v1/data?page={page}&search={search}&items={items}'
+// const header = ["ID","Email","Date","-"]
+// const total = 105
+// 
+// EXAMPLE :
+// 
+// Table.Load({ thead : header, API : API, total : total })
+// 
+//  --- OR ---
+// 
+// Table.API = API
+// Table.thead = header
+// Table.total = total
+// Table.Load()
+// 
+// ================================
+
 class Paginate {
     constructor()
     {
@@ -42,25 +123,27 @@ class Paginate {
                             .replaceAll('{page}',page)
                             .replaceAll('{items}',items)
 
-            // const data = await fetch(url, this.options)
-            // const json = await data.json()
+            const data = await fetch(url, this.options)
+            const json = await data.json()
 
-            // const d = await json
-
-            this.GenerateButtons()
+            const d = await json
             
-            return console.table({
+            this.GenerateButtons()
+
+            console.table({
                 page : page,
                 items : items,
                 start : pageStart,
                 end : pageEnd,
-                search : search
+                search : search,
+                url : url
             })
 
             if(typeof this.format == 'function'){
                 return this.format(d)
             }
 
+            alert("Item "+pageStart+" to "+pageEnd)
         }
         catch(error){
             alert(error)
@@ -224,7 +307,6 @@ class Paginate {
     }
     Reload()
     {
-        this.GenerateButtons()
         this.page()
     }
 }
